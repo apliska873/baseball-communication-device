@@ -6,13 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Set;
 import java.util.UUID;
 
 import android.content.Context;
@@ -23,9 +17,8 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,16 +34,20 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     private void requestBluetoothPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
         }
     }
 
-    private void RequestCameraPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+    private void requestCameraPermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
         }
     }
 
@@ -65,6 +62,20 @@ public class MainActivity extends AppCompatActivity {
                 Resources res = getResources();
                 resultTextView.setText(String.format(res.getString(R.string.scan_result), result.getContents()));
                 uuid = UUID.fromString(result.getContents());
+                /* a fun little easter egg */
+                resultTextView.setOnClickListener(new View.OnClickListener() {
+                    private int tapCount = 0;
+                    @Override
+                    public void onClick(View view) {
+                        tapCount++;
+                        if(tapCount == 7){
+                            Toast.makeText(getApplicationContext(),
+                                    "The numbers, Mason! What do they mean?",
+                                    Toast.LENGTH_SHORT).show();
+                            tapCount = 0;
+                        }
+                    }
+                });
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -77,43 +88,60 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // TODO: Bluetooth stuffs
 
         /* Create buttons and textViews to be used with following code */
         Button buzzButton = findViewById(R.id.buzz_button);
         Button sendButton = findViewById(R.id.send_button);
         Button scanButton = findViewById(R.id.scan_button);
+        Button pairBTButton = findViewById(R.id.bt_button);
         resultTextView = findViewById(R.id.result_textview);
 
         /* Create Vibration stuff*/
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        VibrationEffect haptic = VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE);
-        VibrationEffect effect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
+        VibrationEffect haptic = VibrationEffect.createOneShot(50,          // short
+                VibrationEffect.DEFAULT_AMPLITUDE);
+        VibrationEffect buzz = VibrationEffect.createOneShot(500,           // long
+                VibrationEffect.DEFAULT_AMPLITUDE);
+
+        /* Buzz Button Functionality */
         buzzButton.setOnClickListener(v -> {
             vibrator.vibrate(haptic);
-            vibrator.vibrate(effect);
+            vibrator.vibrate(buzz); // TODO: this buzz should happen on watch side instead
 
+            // TODO: only send this toast if successful buzz sent, other toast "Buzz failed"
             Toast.makeText(this, "Buzz Sent", Toast.LENGTH_SHORT).show();
         });
 
+        /* Send Button functionality */
         sendButton.setOnClickListener(v -> {
             vibrator.vibrate(haptic);
+//            TODO: check if there is a paired device and if not send a toast alerting user
+//              - they need to pair a device first with the Pair Button
         });
 
+        /* Scan Button Functionality */
         scanButton.setOnClickListener(v -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                RequestCameraPermission();
-            }
             vibrator.vibrate(haptic);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                requestCameraPermission();
+            }
 
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
             integrator.setPrompt("Scan a QR code");
-            integrator.setBeepEnabled(true);
+            integrator.setBeepEnabled(false);
             integrator.setOrientationLocked(true);
             integrator.setCaptureActivity(CaptureActivityPortrait.class);
             integrator.initiateScan();
-            ;
+        });
+
+        /* Pair Bluetooth Button Functionality */
+        pairBTButton.setOnClickListener(v -> {
+            vibrator.vibrate(haptic);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                requestBluetoothPermission();
+            }
         });
     }
 }

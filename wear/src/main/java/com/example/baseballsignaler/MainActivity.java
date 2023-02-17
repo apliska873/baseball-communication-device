@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.util.UUID;
 
 public class MainActivity extends Activity {
-    private ImageView qrCodeImageView;
     private TextView code;
     private final UUID uuid = UUID.fromString("d76f80f2-ae6b-11ed-afa1-0242ac120002");
 
@@ -39,21 +38,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         ToggleButton toggleButton = findViewById(R.id.generate_qr_code_button);
-        qrCodeImageView = findViewById(R.id.qr_code_image_view);
+        ImageView qrCodeImageView = findViewById(R.id.qr_code_image_view);
         code = findViewById(R.id.code_display);
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ImageView qrCodeImageView = findViewById(R.id.qr_code_image_view);
                 if (isChecked) {
                     // Show the QR code
-                    ImageView qrCodeImageView = findViewById(R.id.qr_code_image_view);
                     qrCodeImageView.setVisibility(View.VISIBLE);
                     code.setVisibility(View.GONE);
                     qrCodeImageView.setImageBitmap(generateQrCodeBitmap(String.valueOf(uuid)));
                 } else {
                     // Hide the QR code
-                    ImageView qrCodeImageView = findViewById(R.id.qr_code_image_view);
                     qrCodeImageView.setVisibility(View.GONE);
                     code.setVisibility(View.VISIBLE);
                 }

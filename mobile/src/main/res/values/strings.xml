@@ -2,7 +2,8 @@
     <string name="app_name">Baseball Signal App</string>
     <string name="send">Send</string>
     <string name="buzz">Buzz</string>
-    <string name="pair_with_qr">Pair with QR</string>
+    <string name="scan_qr">Scan QR</string>
     <string name="scan_result">UUID: %1$s</string>
     <string name="qr_scan_cancelled">Scan cancelled</string>
+    <string name="bluetooth">Bluetooth</string>
 </resources>
