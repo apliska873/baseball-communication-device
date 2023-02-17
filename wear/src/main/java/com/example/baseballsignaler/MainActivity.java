@@ -30,8 +30,9 @@ import java.util.UUID;
 public class MainActivity extends Activity {
     private ImageView qrCodeImageView;
     private TextView code;
+    private final UUID uuid = UUID.fromString("d76f80f2-ae6b-11ed-afa1-0242ac120002");
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class MainActivity extends Activity {
                     ImageView qrCodeImageView = findViewById(R.id.qr_code_image_view);
                     qrCodeImageView.setVisibility(View.VISIBLE);
                     code.setVisibility(View.GONE);
-                    qrCodeImageView.setImageBitmap(generateQrCodeBitmap("testDevice_watch"));
+                    qrCodeImageView.setImageBitmap(generateQrCodeBitmap(String.valueOf(uuid)));
                 } else {
                     // Hide the QR code
                     ImageView qrCodeImageView = findViewById(R.id.qr_code_image_view);
