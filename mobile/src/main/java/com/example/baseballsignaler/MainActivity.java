@@ -58,9 +58,10 @@ public class MainActivity extends AppCompatActivity {
         if (result != null) {
             if (result.getContents() == null) {
                 resultTextView.setText(R.string.qr_scan_cancelled);
+            } else if(!isValidUUID(result.getContents())){
+                resultTextView.setText(R.string.invalid_qr);
             } else {
-                Resources res = getResources();
-                resultTextView.setText(String.format(res.getString(R.string.scan_result), result.getContents()));
+                resultTextView.setText(String.format(getString(R.string.scan_result), result.getContents()));
                 uuid = UUID.fromString(result.getContents());
                 /* a fun little easter egg */
                 resultTextView.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private boolean isValidUUID(String contents) {
+        try {
+            UUID.fromString(contents);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
     }
 

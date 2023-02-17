@@ -6,4 +6,5 @@
     <string name="scan_result">UUID: %1$s</string>
     <string name="qr_scan_cancelled">Scan cancelled</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="invalid_qr">Invalid QR Code</string>
 </resources>
