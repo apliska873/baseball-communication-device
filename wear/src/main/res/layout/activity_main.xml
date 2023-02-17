@@ -14,13 +14,30 @@
         android:padding="@dimen/inner_frame_layout_padding"
         app:layout_boxedEdges="all">
 
+        <ImageView
+            android:id="@+id/qr_code_image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@android:color/transparent"
+            tools:src="@tools:sample/avatars" />
+
         <TextView
-            android:id="@+id/numTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/numToDisplay"
+            android:id="@+id/code_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center_horizontal"
+            android:text="@string/code_to_display"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="84sp"
+            android:translationY="-10dp" />
+
+        <ToggleButton
+            android:id="@+id/generate_qr_code_button"
+            android:layout_width="126dp"
+            android:layout_height="42dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textOff="@string/show_qr_code"
+            android:textOn="@string/hide_qr_code" />
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>

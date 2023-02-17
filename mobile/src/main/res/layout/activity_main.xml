@@ -21,6 +21,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/number_input"
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:layout_gravity="center"
+        android:digits="0123456789"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
     <Button
         android:id="@+id/send_button"
         android:layout_width="252dp"
@@ -50,18 +63,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.350" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/number_input"
-        android:layout_width="match_parent"
-        android:layout_height="83dp"
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
-        android:digits="0123456789"
-        android:inputType="number"
-        android:textAlignment="center"
-        android:textSize="48sp"
+        android:text="@string/pair_with_qr"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="58dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.900"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/result_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.835"
+        tools:layout_editor_absoluteY="650dp"
         tools:ignore="MissingConstraints" />
 
 

@@ -6,4 +6,8 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="numToDisplay">%1$d</string>
+    <string name="pairing_qr_code">Pairing QR Code</string>
+    <string name="hide_qr_code">Hide QR Code</string>
+    <string name="show_qr_code">Show QR Code</string>
+    <string name="code_to_display">42</string>
 </resources>
