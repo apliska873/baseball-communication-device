@@ -62,46 +62,17 @@
         app:layout_constraintVertical_bias="0.350" />
 
     <Button
-        android:id="@+id/scan_button"
+        android:id="@+id/pair_button"
         android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:text="@string/scan_qr"
+        android:text="@string/pair_dev"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.835"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/bt_button"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="@string/bluetooth"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.930"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/result_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.775"
-        tools:layout_editor_absoluteY="650dp"
         tools:ignore="MissingConstraints" />
 
 
