@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "Main Activity";
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothServerSocket mmServerSocket;
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager bluetoothManager;
+    CompanionDeviceManager deviceManager;
 
     Button buzzButton;
     Button sendButton;
@@ -83,39 +84,6 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-        /* Device Manager for pairing stuff */
-        // Set device filter (isn't filtering anything)
-        BluetoothDeviceFilter deviceFilter = new BluetoothDeviceFilter.Builder()
-                // Match only Bluetooth devices whose name matches the pattern.
-                .setNamePattern(Pattern.compile("Watch"))
-                .build();
-        // Associates the filter with the pair request
-        AssociationRequest pairingRequest = new AssociationRequest.Builder()
-                .addDeviceFilter(deviceFilter)
-                .setSingleDevice(false) // allows the user to find more than one device
-                .build();
-        CompanionDeviceManager deviceManager =
-                (CompanionDeviceManager) getSystemService(Context.COMPANION_DEVICE_SERVICE);
-        deviceManager.associate(pairingRequest, new CompanionDeviceManager.Callback() {
-            // Called when a device is found. Launch the IntentSender so the user can
-            // select the device they want to pair with.
-            @Override
-            public void onDeviceFound(IntentSender chooserLauncher) {
-                try {
-                    startIntentSenderForResult(
-                            chooserLauncher, SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0
-                    );
-                } catch (IntentSender.SendIntentException e) {
-                    Log.e("MainActivity", "Failed to send intent");
-                }
-            }
-
-            @Override
-            public void onFailure(CharSequence error) {
-                // Handle the failure.
-            }
-        }, null);
-
 
         // Register for broadcasts when a device is discovered.
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -135,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Buzz Button Functionality */
         buzzButton.setOnClickListener(v -> {
+            Log.d(TAG, "Buzz button pressed.");
             vibrator.vibrate(haptic);
             vibrator.vibrate(buzz); // TODO: this buzz should happen on watch side instead
 
@@ -144,15 +113,56 @@ public class MainActivity extends AppCompatActivity {
 
         /* Send Button functionality */
         sendButton.setOnClickListener(v -> {
+            Log.d(TAG, "Send button pressed");
             vibrator.vibrate(haptic);
 //            TODO: check if there is a paired device and if not send a toast alerting user
 //              - they need to pair a device first with the Pair Button
         });
 
-        /* Scan Button Functionality */
+        /* Pair Button Functionality */
         pairButton.setOnClickListener(v -> {
+            Log.d(TAG, "Pair button pressed.");
             vibrator.vibrate(haptic);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+            // bluetooth pairing stuff
+            /* Device Manager for pairing stuff */
+            // Set device filter (isn't filtering anything)
+            BluetoothDeviceFilter deviceFilter = new BluetoothDeviceFilter.Builder()
+                    // Match only Bluetooth devices whose name matches the pattern.
+                    .setNamePattern(Pattern.compile("Watch"))
+                    .build();
+            Log.d(TAG, "Device Filter Generated");
+            // Associates the filter with the pair request
+            AssociationRequest pairingRequest = new AssociationRequest.Builder()
+                    .addDeviceFilter(deviceFilter)
+                    .setSingleDevice(false) // allows the user to find more than one device
+                    .build();
+            Log.d(TAG, "Association Request Generated");
+            deviceManager =
+                    (CompanionDeviceManager) getSystemService(Context.COMPANION_DEVICE_SERVICE);
+            deviceManager.associate(pairingRequest, new CompanionDeviceManager.Callback() {
+                // Called when a device is found. Launch the IntentSender so the user can
+                // select the device they want to pair with.
+                @Override
+                public void onDeviceFound(IntentSender chooserLauncher) {
+                    try {
+                        startIntentSenderForResult(
+                                chooserLauncher, SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0
+                        );
+                        Log.d(TAG, "Pair UI sent");
+                    } catch (IntentSender.SendIntentException e) {
+                        Log.e(TAG, "Failed to send intent");
+                    }
+                }
+
+                @Override
+                public void onFailure(CharSequence error) {
+                    // Handle the failure.
+                }
+            }, null);
+
+            // old qr code pairing stuff
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 requestCameraPermission();
             }
 
@@ -162,14 +172,16 @@ public class MainActivity extends AppCompatActivity {
             integrator.setBeepEnabled(false);
             integrator.setOrientationLocked(true);
             integrator.setCaptureActivity(CaptureActivityPortrait.class);
-            integrator.initiateScan();
+            integrator.initiateScan();*/
         });
 
     }
 
+    // All the bluetooth permission request stuff
     @RequiresApi(api = Build.VERSION_CODES.S)
     private void requestBluetoothPermission()
     {
+        Log.d(TAG, "Requesting bluetooth permissions");
         if (ActivityCompat.checkSelfPermission(this,
             Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
         ActivityCompat.requestPermissions(this,
@@ -184,15 +196,6 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.BLUETOOTH_ADMIN}, REQUEST_BLUETOOTH_PERMISSION);
-        }
-    }
-
-    private void requestCameraPermission() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
         }
     }
 
@@ -216,6 +219,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Camera permission request that currently isn't used
+    private void requestCameraPermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
+    // UUID information was used in conjunction with the qr code pairing method which is
+    //      currently not in use.
     private boolean isValidUUID(String contents) {
         try {
             UUID.fromString(contents);
@@ -224,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
     public UUID getUUID() {
         return uuid;
     }
@@ -241,8 +255,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Closes everything
     @Override
     protected void onDestroy(){
+        Log.d(TAG, "Closing");
         super.onDestroy();
         unregisterReceiver(receiver);
     }
