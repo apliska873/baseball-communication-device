@@ -1,0 +1,50 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+*.o
+*.so
+
+# Local configuration file (sdk path, etc)
+/local.properties
+
+# Gradle files
+.gradle/
+**/build/
+**/out/
+**/generated/
+**/gradle-node-plugin/
+
+# Gradle cache and lock file
+.gradle/
+gradlew
+gradle-wrapper.jar
+gradle.lock
+
+# External native build folder generated in Android Studio 2.2 and later
+.cmake/
+
+# NDK build folders generated in Android Studio 2.2 and later
+.obj/
+
+# IntelliJ IDEA files
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Log files
+*.log
+logs/
+
+# Build tooling
+bin/
+build-tools/
