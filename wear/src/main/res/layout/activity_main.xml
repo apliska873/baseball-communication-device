@@ -32,12 +32,26 @@
             android:textSize="84sp"
             android:translationY="-10dp" />
 
+        <!--
         <ToggleButton
             android:id="@+id/generate_qr_code_button"
-            android:layout_width="126dp"
-            android:layout_height="42dp"
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:textOff="@string/show_qr_code"
-            android:textOn="@string/hide_qr_code" />
+            android:textOn="@string/hide_qr_code"
+            android:textSize="10sp"
+            android:translationX="30dp"
+            android:translationY="-3dp" />
+            /-->
+
+        <Button
+            android:id="@+id/bluetooth_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pair Device"
+            android:textSize="10sp"
+            android:translationX="20dp"
+            android:translationY="80dp" />
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>
