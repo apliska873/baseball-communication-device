@@ -2,12 +2,16 @@ package com.example.baseballsignaler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -20,7 +24,11 @@ public class MainActivity extends Activity {
     private TextView code;
     private final UUID uuid = UUID.fromString("d76f80f2-ae6b-11ed-afa1-0242ac120002");
 
-    Button pairDevice;
+    Button btOn;
+    BluetoothAdapter myBtAdapter;
+    Intent enableBtIntent;
+    int REQUEST_ENABLE_BT;
+
 
     @SuppressLint({"MissingInflatedId", "MissingPermission"})
     @Override
@@ -53,11 +61,17 @@ public class MainActivity extends Activity {
         //.....
         //create pairing button for now
 
-        pairDevice = (Button) findViewById(R.id.bluetooth_button);
+        btOn = (Button) findViewById(R.id.bluetooth_button);
+        myBtAdapter = BluetoothAdapter.getDefaultAdapter();
+        enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        REQUEST_ENABLE_BT = 1;
+        
+        btOnMethod();
+
 
     }
 
-    /*
+
     private void btOnMethod() {
         btOn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +80,6 @@ public class MainActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Bluetooth is not supported on this device", Toast.LENGTH_LONG).show();
                 } else {
                     if (!myBtAdapter.isEnabled()) {
-                        enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
                     }
                 }
@@ -85,7 +98,7 @@ public class MainActivity extends Activity {
             }
         }
     }
-    */
+
 
     private Bitmap generateQrCodeBitmap(String data) {
         int size = getResources().getDimensionPixelSize(R.dimen.qr_code_size);
