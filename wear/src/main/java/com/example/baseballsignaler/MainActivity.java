@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 
     }
 
-
+    //bluetooth on method
     private void btOnMethod() {
         btOn.setOnClickListener(new View.OnClickListener() {
             @Override
