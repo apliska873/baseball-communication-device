@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/inner_frame_layout_padding"
+        app:layout_boxedEdges="all">
+
+        <ImageView
+            android:id="@+id/qr_code_image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@android:color/transparent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/code_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center_horizontal"
+            android:text="@string/code_to_display"
+            android:textAlignment="center"
+            android:textSize="84sp"
+            android:translationY="-10dp" />
+
+        <ToggleButton
+            android:id="@+id/generate_qr_code_button"
+            android:layout_width="126dp"
+            android:layout_height="42dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textOff="@string/show_qr_code"
+            android:textOn="@string/hide_qr_code" />
+    </FrameLayout>
+</androidx.wear.widget.BoxInsetLayout>
