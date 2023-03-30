@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ebdf86e-9938-4458-8906-bb1bac15b2e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wear/src/main/java/com/example/baseballsignaler/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/wear/src/main/java/com/example/baseballsignaler/MainActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,18 +38,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ResourceManagerPrefKey.ModuleName": "Baseball_Signaler.wear.main",
-    "ResourceManagerPrefKey.ResourceType": "INTERPOLATOR",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "ToolWindowRun.ShowToolbar": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/gabes/Downloads/SWE415Proj"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ResourceManagerPrefKey.ModuleName&quot;: &quot;Baseball_Signaler.wear.main&quot;,
+    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;INTERPOLATOR&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gabes/Downloads/SWE415Proj&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Android App.wear">
     <configuration name="mobile" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Baseball_Signaler.mobile.main" />
