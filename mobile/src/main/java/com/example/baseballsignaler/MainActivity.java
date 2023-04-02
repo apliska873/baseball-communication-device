@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int REQUEST_ENABLE_BT = 1;
-    private static final String connectionName = "baseball";    //todo useful?
+    private static final String connectionName = "baseball";    //todo useful? yes -rach
     private static final int SELECT_DEVICE_REQUEST_CODE = 1;
     private UUID uuid = null;
 
@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
     BluetoothManager bluetoothManager;
     CompanionDeviceManager deviceManager;
+
+    BTConnectionService bluetoothConnection;
+
+    BluetoothDevice myBTDevice;
 
     Button buzzButton;
     Button sendButton;
@@ -117,12 +121,23 @@ public class MainActivity extends AppCompatActivity {
             vibrator.vibrate(haptic);
 //            TODO: check if there is a paired device and if not send a toast alerting user
 //              - they need to pair a device first with the Pair Button
+            // TODO: how to access the textbox??
+            //          - byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+            //          - bluetoothConnection.write(bytes)
         });
 
         /* Pair Button Functionality */
         pairButton.setOnClickListener(v -> {
             Log.d(TAG, "Pair button pressed.");
             vibrator.vibrate(haptic);
+
+            //TODO: is this the right place for this?
+            // - want to create a bond w/ myBTdevice and start the connection service
+            // - pt.4: 7:30
+            // - not sure if this right, just want to doc this so i can trace back
+            startConnection();
+            myBTDevice.createBond();
+            bluetoothConnection = new BTConnectionService(MainActivity.this);
 
             // bluetooth pairing stuff
             /* Device Manager for pairing stuff */
@@ -176,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    //method for statring connection
+    //remember: connection will fail and app will crash if not paired first
+    public void startConnection()
+    {
+        startBTConnection(myBTDevice, uuid);
+    }
 
     // All the bluetooth permission request stuff
     @RequiresApi(api = Build.VERSION_CODES.S)
@@ -197,6 +218,31 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.BLUETOOTH_ADMIN}, REQUEST_BLUETOOTH_PERMISSION);
         }
+    }
+
+    public void startBTConnection(BluetoothDevice device, UUID uuid)
+    {
+        Log.d(TAG, "startBTConnection: Initializing RFCOM BT Connection");
+
+        //initiates dialogue and starts ConnectThread
+        bluetoothConnection.startClient(device, uuid);
+    }
+
+    /**
+     * getter for bluetoothAdapter
+     * @return bluetoothAdapter
+     */
+    public BluetoothAdapter getBluetoothAdapter(){
+        return bluetoothAdapter;
+    }
+
+    /**
+     * getter for connectionName
+     * @return connectionName
+     */
+    public String getConnectionName()
+    {
+        return connectionName;
     }
 
     /* Stuff for paring devices */
@@ -251,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 @SuppressLint("MissingPermission") String deviceName = device.getName();
                 String deviceHardwareAddress = device.getAddress(); // MAC address
+                myBTDevice = device;
             }
         }
     };
