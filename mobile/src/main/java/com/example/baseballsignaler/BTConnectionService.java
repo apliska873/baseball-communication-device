@@ -23,9 +23,7 @@ public class BTConnectionService
     //need UUID (insecure or secure) should be secure
     private static final UUID myUUID = null;
 
-    private static final MainActivity ma; //todo: need to get MainActivity info so that I can use it here.
-
-    private static final String connectionName = ma.getConnectionName();
+    private String connectionName = null;
     private final BluetoothAdapter myBTAdapter;
 
     private AcceptThread myAcceptThread;
@@ -34,16 +32,19 @@ public class BTConnectionService
     private ConnectThread myConnectThread;
     private BluetoothDevice myDevice;
     private UUID deviceUUID;
+    MainActivity ma = null;
     ProgressDialog myProgressDialog;
     // end ConnectThread variables
+    Context myContext;
 
     //ConnectedThread objects
     private ConnectedThread myConnectedThread;
-    Context myContext;
 
-    public BTConnectionService(Context c) {
+    public BTConnectionService(Context c, MainActivity m) {
         myContext = c;
         myBTAdapter = ma.getBluetoothAdapter();
+        ma = m;
+        connectionName = ma.getConnectionName();
         start();
     }
 

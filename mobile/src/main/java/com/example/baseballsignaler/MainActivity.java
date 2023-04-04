@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             // - not sure if this right, just want to doc this so i can trace back
             startConnection();
             myBTDevice.createBond();
-            bluetoothConnection = new BTConnectionService(MainActivity.this);
+            bluetoothConnection = new BTConnectionService(MainActivity.this, MainActivity.this);
 
             // bluetooth pairing stuff
             /* Device Manager for pairing stuff */
