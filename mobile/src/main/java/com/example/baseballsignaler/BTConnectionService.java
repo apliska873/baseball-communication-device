@@ -21,7 +21,7 @@ public class BTConnectionService
     private static final String TAG = "BluetoothConnectionService";
 
     //need UUID (insecure or secure) should be secure
-    private static final UUID myUUID = null;
+    private UUID myUUID = null;
 
     private String connectionName = null;
     private final BluetoothAdapter myBTAdapter;
@@ -44,6 +44,7 @@ public class BTConnectionService
         myContext = c;
         myBTAdapter = ma.getBluetoothAdapter();
         ma = m;
+        myUUID = ma.getUUID();
         connectionName = ma.getConnectionName();
         start();
     }
@@ -60,7 +61,6 @@ public class BTConnectionService
         public AcceptThread()
         {
             BluetoothServerSocket tmp = null;
-            String connectionName = ma.getConnectionName();
 
             //listening server socket
             try {
@@ -166,7 +166,6 @@ public class BTConnectionService
                 }
                 Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + myUUID);
             }
-            //todo: comeback to this
             connected(mySocket, myDevice);
         }
 

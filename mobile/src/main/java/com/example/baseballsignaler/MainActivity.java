@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     private static final String connectionName = "baseball";    //todo useful? yes -rach
     private static final int SELECT_DEVICE_REQUEST_CODE = 1;
-    private UUID uuid = null;
+    private UUID uuid = UUID.fromString("d76f80f2-ae6b-11ed-afa1-0242ac120002");
 
     private BluetoothServerSocket mmServerSocket;
     BluetoothAdapter bluetoothAdapter;
