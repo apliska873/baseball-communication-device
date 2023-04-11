@@ -1,43 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".MainActivity"
-    tools:deviceIds="wear">
+    android:paddingBottom="30dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp"
+    tools:context="com.example.baseballsignaler.MainActivity">
 
-    <FrameLayout
+    <ViewFlipper
+        android:id="@+id/myViewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:layout_boxedEdges="all">
+        android:layout_height="match_parent" >
 
-        <ImageView
-            android:id="@+id/qr_code_image_view"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="top|center_horizontal"
-            android:background="@android:color/transparent"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/code_display"
+        <LinearLayout
+            android:id="@+id/begin_bluetooth_enable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="top|center_horizontal"
-            android:text="@string/code_to_display"
-            android:textAlignment="center"
-            android:textSize="84sp"
-            android:translationY="-10dp" />
+            android:orientation="vertical" >
 
-        <ToggleButton
-            android:id="@+id/generate_qr_code_button"
-            android:layout_width="126dp"
-            android:layout_height="42dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:textOff="@string/show_qr_code"
-            android:textOn="@string/hide_qr_code" />
-    </FrameLayout>
-</androidx.wear.widget.BoxInsetLayout>
+            <Button
+                android:id="@+id/btnONOFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:text="BT ON/OFF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/begin_allow_discoverable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/btnDiscoverable_on_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:onClick="btnEnableDisable_Discoverable"
+                android:text="Make Disc"
+                tools:ignore="OnClick" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/begin_discovering"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnFindUnpairedDevices"
+                android:text="Discover"
+                android:onClick="btnDiscover"
+                tools:ignore="OnClick" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/begin_connection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnFindUnpairedDevices"
+                android:id="@+id/btnStartConnection"
+                android:text="Start Connection"/>
+
+            <ListView
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/btnStartConnection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lvNewDevices"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/receiver_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50sp"
+                android:text="Waiting..."
+                android:layout_below="@+id/editText"
+                android:layout_alignParentStart="true"
+                android:id="@+id/viewReceived"/>
+
+        </LinearLayout>
+
+    </ViewFlipper>
+
+
+</RelativeLayout>

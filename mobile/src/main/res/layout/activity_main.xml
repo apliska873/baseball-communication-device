@@ -26,14 +26,16 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="btnEnableDisable_Discoverable"
-        android:text="Make Disc" />
+        android:text="Make Disc"
+        tools:ignore="OnClick" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnFindUnpairedDevices"
         android:text="Discover"
-        android:onClick="btnDiscover"/>
+        android:onClick="btnDiscover"
+        tools:ignore="OnClick" />
 
     <ListView
         android:layout_marginTop="15dp"
