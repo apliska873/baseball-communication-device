@@ -2,250 +2,367 @@ package com.example.baseballsignaler;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothServerSocket;
-import android.companion.AssociationRequest;
-import android.companion.BluetoothDeviceFilter;
-import android.companion.CompanionDeviceManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-
-import java.util.Set;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "Main Activity";
-    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
-    private static final int REQUEST_CAMERA_PERMISSION = 1;
-    private static final int REQUEST_ENABLE_BT = 1;
-    private static final String connectionName = "baseball";    //todo useful?
-    private static final int SELECT_DEVICE_REQUEST_CODE = 1;
-    private UUID uuid = null;
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+    private static final String TAG = "MainActivity";
+    BluetoothAdapter mBluetoothAdapter;
+    Button btnEnableDisable_Discoverable;
+    public static TextView viewText;
+    BluetoothConnectionService mBluetoothConnection;
 
-    private BluetoothServerSocket mmServerSocket;
-    BluetoothAdapter bluetoothAdapter;
-    BluetoothManager bluetoothManager;
+    Button btnStartConnection;
+    Button btnSend;
 
-    Button buzzButton;
-    Button sendButton;
-    Button pairButton;
+    EditText etSend;
+    private static final UUID MY_UUID_INSECURE =
+            UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
-    @SuppressLint({"MissingInflatedId", "MissingPermission"}) // delete this eventually
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    BluetoothDevice mBTDevice;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            requestBluetoothPermission();
-        }
+    public ArrayList<BluetoothDevice> mBTDevices = new ArrayList<>();
 
-        // TODO: Bluetooth stuffs
-        bluetoothManager = getSystemService(BluetoothManager.class);
-        bluetoothAdapter = bluetoothManager.getAdapter();
-        if (bluetoothAdapter == null) {
-            Log.e(TAG, "Bluetooth not supported");
-            Toast.makeText(this, "Device does not support Bluetooth", Toast.LENGTH_SHORT).show();
-        }
-        assert bluetoothAdapter != null;
-        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress();
-            }
-        }
-        if (!bluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
+    public DeviceListAdapter mDeviceListAdapter;
 
-        /* Device Manager for pairing stuff */
-        // Set device filter (isn't filtering anything)
-        BluetoothDeviceFilter deviceFilter = new BluetoothDeviceFilter.Builder()
-                // Match only Bluetooth devices whose name matches the pattern.
-                .setNamePattern(Pattern.compile("Watch"))
-                .build();
-        // Associates the filter with the pair request
-        AssociationRequest pairingRequest = new AssociationRequest.Builder()
-                .addDeviceFilter(deviceFilter)
-                .setSingleDevice(false) // allows the user to find more than one device
-                .build();
-        CompanionDeviceManager deviceManager =
-                (CompanionDeviceManager) getSystemService(Context.COMPANION_DEVICE_SERVICE);
-        deviceManager.associate(pairingRequest, new CompanionDeviceManager.Callback() {
-            // Called when a device is found. Launch the IntentSender so the user can
-            // select the device they want to pair with.
-            @Override
-            public void onDeviceFound(IntentSender chooserLauncher) {
-                try {
-                    startIntentSenderForResult(
-                            chooserLauncher, SELECT_DEVICE_REQUEST_CODE, null, 0, 0, 0
-                    );
-                } catch (IntentSender.SendIntentException e) {
-                    Log.e("MainActivity", "Failed to send intent");
-                }
-            }
-
-            @Override
-            public void onFailure(CharSequence error) {
-                // Handle the failure.
-            }
-        }, null);
+    ListView lvNewDevices;
 
 
-        // Register for broadcasts when a device is discovered.
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(receiver, filter);
-
-        /* Create buttons and textViews to be used with following code */
-        buzzButton = findViewById(R.id.buzz_button);
-        sendButton = findViewById(R.id.send_button);
-        pairButton = findViewById(R.id.pair_button);
-
-        /* Create Vibration stuff*/
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        VibrationEffect haptic = VibrationEffect.createOneShot(50,          // short
-                VibrationEffect.DEFAULT_AMPLITUDE);
-        VibrationEffect buzz = VibrationEffect.createOneShot(500,           // long
-                VibrationEffect.DEFAULT_AMPLITUDE);
-
-        /* Buzz Button Functionality */
-        buzzButton.setOnClickListener(v -> {
-            vibrator.vibrate(haptic);
-            vibrator.vibrate(buzz); // TODO: this buzz should happen on watch side instead
-
-            // TODO: only send this toast if successful buzz sent, other toast "Buzz failed"
-            Toast.makeText(this, "Buzz Sent", Toast.LENGTH_SHORT).show();
-        });
-
-        /* Send Button functionality */
-        sendButton.setOnClickListener(v -> {
-            vibrator.vibrate(haptic);
-//            TODO: check if there is a paired device and if not send a toast alerting user
-//              - they need to pair a device first with the Pair Button
-        });
-
-        /* Scan Button Functionality */
-        pairButton.setOnClickListener(v -> {
-            vibrator.vibrate(haptic);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                requestCameraPermission();
-            }
-
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-            integrator.setPrompt("Scan a QR code");
-            integrator.setBeepEnabled(false);
-            integrator.setOrientationLocked(true);
-            integrator.setCaptureActivity(CaptureActivityPortrait.class);
-            integrator.initiateScan();
-        });
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.S)
-    private void requestBluetoothPermission()
-    {
-        if (ActivityCompat.checkSelfPermission(this,
-            Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.BLUETOOTH}, REQUEST_BLUETOOTH_PERMISSION);
-        }
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
-        }
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.BLUETOOTH_ADMIN}, REQUEST_BLUETOOTH_PERMISSION);
-        }
-    }
-
-    private void requestCameraPermission() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-        }
-    }
-
-    /* Stuff for paring devices */
-    @SuppressLint("MissingPermission")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == SELECT_DEVICE_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                BluetoothDevice deviceToPair = data.getParcelableExtra(
-                        CompanionDeviceManager.EXTRA_DEVICE
-                );
-
-                if (deviceToPair != null) {
-                    deviceToPair.createBond();
-                    // ... Continue interacting with the paired device.
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    private boolean isValidUUID(String contents) {
-        try {
-            UUID.fromString(contents);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
-
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
+    // Create a BroadcastReceiver for ACTION_FOUND
+    private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                @SuppressLint("MissingPermission") String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
+            // When discovery finds a device
+            if (action.equals(mBluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, mBluetoothAdapter.ERROR);
+
+                switch(state){
+                    case BluetoothAdapter.STATE_OFF:
+                        Log.d(TAG, "onReceive: STATE OFF");
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                        Log.d(TAG, "mBroadcastReceiver1: STATE TURNING OFF");
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        Log.d(TAG, "mBroadcastReceiver1: STATE ON");
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                        Log.d(TAG, "mBroadcastReceiver1: STATE TURNING ON");
+                        break;
+                }
             }
         }
     };
 
+    /**
+     * Broadcast Receiver for changes made to bluetooth states such as:
+     * 1) Discoverability mode on/off or expire.
+     */
+    private final BroadcastReceiver mBroadcastReceiver2 = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)) {
+
+                int mode = intent.getIntExtra(BluetoothAdapter.EXTRA_SCAN_MODE, BluetoothAdapter.ERROR);
+
+                switch (mode) {
+                    //Device is in Discoverable Mode
+                    case BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE:
+                        Log.d(TAG, "mBroadcastReceiver2: Discoverability Enabled.");
+                        break;
+                    //Device not in discoverable mode
+                    case BluetoothAdapter.SCAN_MODE_CONNECTABLE:
+                        Log.d(TAG, "mBroadcastReceiver2: Discoverability Disabled. Able to receive connections.");
+                        break;
+                    case BluetoothAdapter.SCAN_MODE_NONE:
+                        Log.d(TAG, "mBroadcastReceiver2: Discoverability Disabled. Not able to receive connections.");
+                        break;
+                    case BluetoothAdapter.STATE_CONNECTING:
+                        Log.d(TAG, "mBroadcastReceiver2: Connecting....");
+                        break;
+                    case BluetoothAdapter.STATE_CONNECTED:
+                        Log.d(TAG, "mBroadcastReceiver2: Connected.");
+                        break;
+                }
+
+            }
+        }
+    };
+
+
+
+
+    /**
+     * Broadcast Receiver for listing devices that are not yet paired
+     * -Executed by btnDiscover() method.
+     */
+    private BroadcastReceiver mBroadcastReceiver3 = new BroadcastReceiver() {
+        @SuppressLint("MissingPermission")
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            Log.d(TAG, "onReceive: ACTION FOUND.");
+
+            if (action.equals(BluetoothDevice.ACTION_FOUND)){
+                BluetoothDevice device = intent.getParcelableExtra (BluetoothDevice.EXTRA_DEVICE);
+                if (device.getName() != null) {
+                    mBTDevices.add(device);
+                    Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
+                    mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevices);
+                    lvNewDevices.setAdapter(mDeviceListAdapter);
+                }
+            }
+        }
+    };
+
+    /**
+     * Broadcast Receiver that detects bond state changes (Pairing status changes)
+     */
+    private final BroadcastReceiver mBroadcastReceiver4 = new BroadcastReceiver() {
+        @SuppressLint("MissingPermission")
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if(action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)){
+                BluetoothDevice mDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                //3 cases:
+                //case1: bonded already
+                if (mDevice.getBondState() == BluetoothDevice.BOND_BONDED){
+                    Log.d(TAG, "BroadcastReceiver: BOND_BONDED.");
+                    //inside BroadcastReceiver4
+                    mBTDevice = mDevice;
+                }
+                //case2: creating a bone
+                if (mDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
+                    Log.d(TAG, "BroadcastReceiver: BOND_BONDING.");
+                }
+                //case3: breaking a bond
+                if (mDevice.getBondState() == BluetoothDevice.BOND_NONE) {
+                    Log.d(TAG, "BroadcastReceiver: BOND_NONE.");
+                }
+            }
+        }
+    };
+
+
+
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: called.");
         super.onDestroy();
-        unregisterReceiver(receiver);
+        unregisterReceiver(mBroadcastReceiver1);
+        unregisterReceiver(mBroadcastReceiver2);
+        unregisterReceiver(mBroadcastReceiver3);
+        unregisterReceiver(mBroadcastReceiver4);
+        //mBluetoothAdapter.cancelDiscovery();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button btnONOFF = (Button) findViewById(R.id.btnONOFF);
+        btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnDiscoverable_on_off);
+        lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
+        mBTDevices = new ArrayList<>();
+        viewText = findViewById(R.id.viewReceived);
+
+        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        btnSend = (Button) findViewById(R.id.btnSend);
+        etSend = (EditText) findViewById(R.id.editText);
+
+        //Broadcasts when bond state changes (ie:pairing)
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        registerReceiver(mBroadcastReceiver4, filter);
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        lvNewDevices.setOnItemClickListener(MainActivity.this);
+
+
+        btnONOFF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: enabling/disabling bluetooth.");
+                enableDisableBT();
+            }
+        });
+
+        btnStartConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startConnection();
+            }
+        });
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+                try {
+                    mBluetoothConnection.write(bytes);
+                } catch (InvocationTargetException e) {
+                    Log.e(TAG, "onClick: InvocationTargetException " + e.getMessage());
+                } catch (NoSuchMethodException e) {
+                    Log.e(TAG, "onClick: NoSuchMethodException " + e.getMessage());
+                } catch (IllegalAccessException e) {
+                    Log.e(TAG, "onClick: IllegalAccessException " + e.getMessage());
+                } catch (IOException e) {
+                    Log.e(TAG, "onClick: IOException " + e.getMessage());
+                }
+            }
+        });
+
+    }
+
+    //create method for starting connection
+//***remember the conncction will fail and app will crash if you haven't paired first
+    public void startConnection(){
+        startBTConnection(mBTDevice,MY_UUID_INSECURE);
+    }
+
+    /**
+     * starting chat service method
+     */
+    public void startBTConnection(BluetoothDevice device, UUID uuid){
+        Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
+
+        mBluetoothConnection.startClient(device,uuid);
     }
 
 
+
+    @SuppressLint("MissingPermission")
+    public void enableDisableBT(){
+        if(mBluetoothAdapter == null){
+            Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
+        }
+        if(!mBluetoothAdapter.isEnabled()){
+            Log.d(TAG, "enableDisableBT: enabling BT.");
+            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBTIntent);
+
+            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+            registerReceiver(mBroadcastReceiver1, BTIntent);
+        }
+        if(mBluetoothAdapter.isEnabled()){
+            Log.d(TAG, "enableDisableBT: disabling BT.");
+            mBluetoothAdapter.disable();
+
+            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+            registerReceiver(mBroadcastReceiver1, BTIntent);
+        }
+
+    }
+
+
+    @SuppressLint("MissingPermission")
+    public void btnEnableDisable_Discoverable(View view) {
+        Log.d(TAG, "btnEnableDisable_Discoverable: Making device discoverable for 300 seconds.");
+
+        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+        startActivity(discoverableIntent);
+
+        IntentFilter intentFilter = new IntentFilter(mBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
+        registerReceiver(mBroadcastReceiver2,intentFilter);
+
+    }
+
+    @SuppressLint("MissingPermission")
+    public void btnDiscover(View view) {
+        Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
+
+        if(mBluetoothAdapter.isDiscovering()){
+            mBluetoothAdapter.cancelDiscovery();
+            Log.d(TAG, "btnDiscover: Canceling discovery.");
+
+            //check BT permissions in manifest
+            checkBTPermissions();
+
+            mBluetoothAdapter.startDiscovery();
+            IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
+        }
+        if(!mBluetoothAdapter.isDiscovering()){
+
+            //check BT permissions in manifest
+            checkBTPermissions();
+
+            mBluetoothAdapter.startDiscovery();
+            IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
+        }
+    }
+
+    /**
+     * This method is required for all devices running API23+
+     * Android must programmatically check the permissions for bluetooth. Putting the proper permissions
+     * in the manifest is not enough.
+     *
+     * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
+     */
+    private void checkBTPermissions() {
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+            int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
+            permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
+            if (permissionCheck != 0) {
+
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+            }
+        }else{
+            Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //first cancel discovery because its very memory intensive.
+        mBluetoothAdapter.cancelDiscovery();
+
+        Log.d(TAG, "onItemClick: You Clicked on a device.");
+        String deviceName = mBTDevices.get(i).getName();
+        String deviceAddress = mBTDevices.get(i).getAddress();
+
+        Log.d(TAG, "onItemClick: deviceName = " + deviceName);
+        Log.d(TAG, "onItemClick: deviceAddress = " + deviceAddress);
+
+        //create the bond.
+        //NOTE: Requires API 17+? I think this is JellyBean
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+            Log.d(TAG, "Trying to pair with " + deviceName);
+            mBTDevices.get(i).createBond();
+
+            mBTDevice = mBTDevices.get(i);
+            mBluetoothConnection = new BluetoothConnectionService(MainActivity.this);
+        }
+    }
 }
