@@ -20,18 +20,52 @@
             android:id="@+id/begin_bluetooth_enable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btnONOFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:text="BT ON/OFF" />
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/main_screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/inner_frame_layout_padding">
+            <!--android:boxedEdges="all"> /-->
+
+
+            <Button
+                android:id="@+id/connectButton"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="Connect" />
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:textSize="12sp"
+                android:text="Clear" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="93dp"
+                android:layout_gravity="bottom|center"
+                android:ems="10"
+                android:inputType="text"
+                android:text="4444"
+                android:textSize="50sp"
+                android:id="@+id/viewReceived"/>
+
+        </FrameLayout>
         <LinearLayout
             android:id="@+id/begin_allow_discoverable"
             android:layout_width="match_parent"
@@ -42,6 +76,7 @@
                 android:id="@+id/btnDiscoverable_on_off"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center|center"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:onClick="btnEnableDisable_Discoverable"
@@ -59,6 +94,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center|center"
                 android:id="@+id/btnFindUnpairedDevices"
                 android:text="Discover"
                 android:onClick="btnDiscover"
@@ -86,23 +122,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/lvNewDevices"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/receiver_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="50sp"
-                android:text="Waiting..."
-                android:layout_below="@+id/editText"
-                android:layout_alignParentStart="true"
-                android:id="@+id/viewReceived"/>
 
         </LinearLayout>
 

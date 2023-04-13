@@ -194,6 +194,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         Button btnFindDiscoverableDevices = (Button) findViewById(R.id.btnFindUnpairedDevices);
         btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnDiscoverable_on_off);
         btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        Button btnConnectMain = (Button) findViewById(R.id.connectButton);
 
         //Broadcasts when bond state changes (ie:pairing)
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -205,10 +206,20 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 Log.d(TAG, "onClick: enabling/disabling bluetooth.");
                 enableDisableBT();
                 if (!mBluetoothAdapter.isEnabled()) {
-                    viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.begin_allow_discoverable)));
+                    viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.main_screen)));
                 }
             }
         });
+
+        btnConnectMain.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.begin_allow_discoverable)));
+            }
+        });
+
+
 
         btnEnableDisable_Discoverable.setOnClickListener(new View.OnClickListener() {
 
@@ -231,7 +242,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             @Override
             public void onClick(View view) {
                 startConnection();
-                viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.receiver_view)));
+                viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.main_screen)));
             }
         });
 
