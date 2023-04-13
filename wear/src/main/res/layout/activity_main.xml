@@ -1,45 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".MainActivity"
-    tools:deviceIds="wear">
+    android:paddingBottom="30dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp"
+    tools:context="com.example.baseballsignaler.MainActivity">
 
-    <FrameLayout
+    <ViewFlipper
+        android:id="@+id/myViewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:layout_boxedEdges="all">
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/begin_bluetooth_enable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnONOFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="BT ON/OFF" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/main_screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/inner_frame_layout_padding">
+            <!--android:boxedEdges="all"> /-->
 
 
-        <Button
-            android:id="@+id/connectButton"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|left"
-            android:textSize="12sp"
-            android:text="@string/connect" />
+            <Button
+                android:id="@+id/connectButton"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="Connect" />
 
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:textSize="12sp"
-            android:text="@string/clear" />
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:textSize="12sp"
+                android:text="Clear" />
 
-        <TextView
-            android:id="@+id/textCodeDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="93dp"
-            android:layout_gravity="bottom|center"
-            android:ems="10"
-            android:inputType="text"
-            android:text="4444"
-            android:textSize="65sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="93dp"
+                android:layout_gravity="bottom|center"
+                android:ems="10"
+                android:inputType="text"
+                android:text="4444"
+                android:textSize="50sp"
+                android:id="@+id/viewReceived"/>
 
-    </FrameLayout>
-</androidx.wear.widget.BoxInsetLayout>
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/begin_allow_discoverable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/btnDiscoverable_on_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:onClick="btnEnableDisable_Discoverable"
+                android:text="Make Disc"
+                tools:ignore="OnClick" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/begin_discovering"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center"
+                android:id="@+id/btnFindUnpairedDevices"
+                android:text="Discover"
+                android:onClick="btnDiscover"
+                tools:ignore="OnClick" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/begin_connection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnFindUnpairedDevices"
+                android:id="@+id/btnStartConnection"
+                android:text="Start Connection"/>
+
+            <ListView
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/btnStartConnection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lvNewDevices"/>
+
+        </LinearLayout>
+
+    </ViewFlipper>
+
+
+</RelativeLayout>
