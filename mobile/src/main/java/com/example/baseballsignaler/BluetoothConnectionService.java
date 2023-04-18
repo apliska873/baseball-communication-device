@@ -259,9 +259,6 @@ public class BluetoothConnectionService extends MainActivity {
                 try {
                     bytes = mmInStream.read(buffer);
                     incomingMessage = new String(buffer, 0, bytes);
-                    if (incomingMessage != null) {
-                        MainActivity.viewText.setText(incomingMessage);
-                     }
                     Log.d(TAG, "InputStream: " + incomingMessage);
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage());

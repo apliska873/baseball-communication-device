@@ -61,7 +61,7 @@
                 android:layout_gravity="bottom|center"
                 android:ems="10"
                 android:inputType="text"
-                android:text="4444"
+                android:text="____"
                 android:textSize="50sp"
                 android:id="@+id/viewReceived"/>
 
