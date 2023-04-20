@@ -61,13 +61,13 @@
         android:id="@+id/editText"/>
 
     <TextView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:textSize="50sp"
-        android:text="Waiting..."
+        android:id="@+id/viewReceived"
+        android:layout_width="327dp"
+        android:layout_height="150dp"
         android:layout_below="@+id/editText"
         android:layout_alignParentStart="true"
-        android:id="@+id/viewReceived"/>
+        android:text="Waiting..."
+        android:textSize="50sp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -77,5 +77,10 @@
         android:layout_toRightOf="@+id/editText"
         android:layout_below="@+id/lvNewDevices"/>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="327dp"
+        android:layout_height="107dp"
+        android:layout_below="@+id/viewReceived" />
 
 </RelativeLayout>
