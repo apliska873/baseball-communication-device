@@ -47,13 +47,6 @@
                 android:textSize="12sp"
                 android:text="Connect" />
 
-            <Button
-                android:id="@+id/clearButton"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|right"
-                android:textSize="12sp"
-                android:text="Clear" />
 
             <TextView
                 android:layout_width="wrap_content"
