@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,11 +32,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String TAG = "MainActivity";
     BluetoothAdapter mBluetoothAdapter;
     Button btnEnableDisable_Discoverable;
-    public static TextView viewText;
     BluetoothConnectionService mBluetoothConnection;
 
     Button btnStartConnection;
     Button btnSend;
+    Button btnClear;
+    Button toConnectWindow;
+
+    ViewFlipper viewFlipper;
 
     EditText etSend;
     private static final UUID MY_UUID_INSECURE =
@@ -171,19 +175,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     };
 
 
-
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy: called.");
-        super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver1);
-        unregisterReceiver(mBroadcastReceiver2);
-        unregisterReceiver(mBroadcastReceiver3);
-        unregisterReceiver(mBroadcastReceiver4);
-        //mBluetoothAdapter.cancelDiscovery();
-    }
-
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,11 +184,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnDiscoverable_on_off);
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
         mBTDevices = new ArrayList<>();
-        viewText = findViewById(R.id.viewReceived);
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 
         btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnSend = (Button) findViewById(R.id.btnSend);
         etSend = (EditText) findViewById(R.id.editText);
+        toConnectWindow = (Button) findViewById(R.id.btnConnect);
+        btnClear = (Button) findViewById(R.id.btnClear);
+
 
         //Broadcasts when bond state changes (ie:pairing)
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -226,6 +221,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+                try {
+                    mBluetoothConnection.write(bytes);
+                } catch (InvocationTargetException e) {
+                    Log.e(TAG, "onClick: InvocationTargetException " + e.getMessage());
+                } catch (NoSuchMethodException e) {
+                    Log.e(TAG, "onClick: NoSuchMethodException " + e.getMessage());
+                } catch (IllegalAccessException e) {
+                    Log.e(TAG, "onClick: IllegalAccessException " + e.getMessage());
+                } catch (IOException e) {
+                    Log.e(TAG, "onClick: IOException " + e.getMessage());
+                }
+            }
+        });
+
+        toConnectWindow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.bluetooth_screen)));
+            }
+        });
+        btnStartConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startConnection();
+                viewFlipper.setDisplayedChild(viewFlipper.indexOfChild(findViewById(R.id.default_screen)));
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byte[] bytes = "".getBytes(Charset.defaultCharset());
                 try {
                     mBluetoothConnection.write(bytes);
                 } catch (InvocationTargetException e) {
@@ -364,5 +391,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mBTDevice = mBTDevices.get(i);
             mBluetoothConnection = new BluetoothConnectionService(MainActivity.this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: called.");
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver1);
+        unregisterReceiver(mBroadcastReceiver2);
+        unregisterReceiver(mBroadcastReceiver3);
+        unregisterReceiver(mBroadcastReceiver4);
+        //mBluetoothAdapter.cancelDiscovery();
     }
 }

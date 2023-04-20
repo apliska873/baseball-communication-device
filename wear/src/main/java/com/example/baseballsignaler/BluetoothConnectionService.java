@@ -261,7 +261,9 @@ public class BluetoothConnectionService extends MainActivity {
                     incomingMessage = new String(buffer, 0, bytes);
                     if (incomingMessage != null) {
                         MainActivity.viewText.setText(incomingMessage);
-                     }
+                    } else {
+                        MainActivity.viewText.setText("");
+                    }
                     Log.d(TAG, "InputStream: " + incomingMessage);
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage());
