@@ -10,15 +10,130 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ebdf86e-9938-4458-8906-bb1bac15b2e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/7.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/8xfnfq2z1syzyjmrrij4llb90/buildfingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/8xfnfq2z1syzyjmrrij4llb90/buildfingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/8xfnfq2z1syzyjmrrij4llb90/entry.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/8xfnfq2z1syzyjmrrij4llb90/entry.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/8xfnfq2z1syzyjmrrij4llb90/work.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/8xfnfq2z1syzyjmrrij4llb90/work.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/buildfingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/buildfingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/entry.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/entry.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/work.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/work.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/buildfingerprint.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/buildfingerprint.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/entry.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/entry.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/work.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/work.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wear/src/main/java/com/example/baseballsignaler/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/wear/src/main/java/com/example/baseballsignaler/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/baseballsignaler/BTConnectionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/baseballsignaler/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/baseballsignaler/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/baseballsignaler/MainActivity2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/7.5/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/buildfingerprint.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/entry.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/work.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/configuration-cache.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/entry.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/projectfingerprint.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/render.experimental.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build/reports/configuration-cache/2r1qn6ny16j55vcc9tjva0bz8/5fyb7ul439ujufxcmce7ps1sn/configuration-cache-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build/reports/configuration-cache/2r1qn6ny16j55vcc9tjva0bz8/9am95jtelk1p68xgexfr2kb6a/configuration-cache-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build/reports/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/9amw7jkdnfz5qkscs2ppn87fr/configuration-cache-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build/reports/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/cak25sfv7emy8pffq7b90rud2/configuration-cache-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build/reports/configuration-cache/ah2wctgbwbktnu2nblcmq4b3l/ovz0tbf2ibhnfyb59onkd6e4/configuration-cache-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/build/reports/configuration-cache/jxj8mv70tdvsbor4yv6i6u8q/4tidthhapzx5cpjgilg48nwqr/configuration-cache-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/local.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/androidTest/java/com/example/baseballsignaler/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/java/com/example/baseballsignaler/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-anydpi-v33/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/values/ids.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/xml/backup_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/mobile/src/test/java/com/example/baseballsignaler/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/java/com/example/baseballsignaler/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/values-round/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/values/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swe415-baseball-communication-device-main/wear/src/main/res/values/strings.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\gabes\.android\avd\Wear_OS_Small_Round_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R3CR30AKVPA]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -38,18 +153,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ResourceManagerPrefKey.ModuleName&quot;: &quot;Baseball_Signaler.wear.main&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;INTERPOLATOR&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gabes/Downloads/SWE415Proj&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ResourceManagerPrefKey.ModuleName": "Baseball_Signaler.wear.main",
+    "ResourceManagerPrefKey.ResourceType": "INTERPOLATOR",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "ToolWindowRun.ShowToolbar": "false",
+    "cidr.known.project.marker": "true",
+    "full.screen.before.presentation.mode": "false",
+    "last_opened_file_path": "/Users/apliska873/temp/swe415-baseball-communication-device"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Android App.wear">
     <configuration name="mobile" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Baseball_Signaler.mobile.main" />
@@ -178,5 +294,16 @@
       <updated>1679409085484</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

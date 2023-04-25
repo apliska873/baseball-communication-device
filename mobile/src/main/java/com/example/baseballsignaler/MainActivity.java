@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -231,6 +232,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.e(TAG, "onClick: IllegalAccessException " + e.getMessage());
                 } catch (IOException e) {
                     Log.e(TAG, "onClick: IOException " + e.getMessage());
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "btnSend: No target device found.");
                 }
             }
         });
@@ -263,6 +266,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.e(TAG, "onClick: IllegalAccessException " + e.getMessage());
                 } catch (IOException e) {
                     Log.e(TAG, "onClick: IOException " + e.getMessage());
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "btnClear: No target device found.");
                 }
             }
         });
@@ -270,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     //create method for starting connection
-//***remember the conncction will fail and app will crash if you haven't paired first
+//***remember the connection will fail and app will crash if you haven't paired first
     public void startConnection(){
         startBTConnection(mBTDevice,MY_UUID_INSECURE);
     }
@@ -281,7 +286,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void startBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
 
-        mBluetoothConnection.startClient(device,uuid);
+
+        try {
+            mBluetoothConnection.startClient(device, uuid);
+        }
+        catch (Exception e) {
+            Log.e(TAG, "startBTConnection: Bluetooth connection failed.");
+            Toast.makeText(this, "Bluetooth Connection Failed", Toast.LENGTH_LONG).show();
+            Log.e(TAG, e.getMessage());
+        }
     }
 
 
