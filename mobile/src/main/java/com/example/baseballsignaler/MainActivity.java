@@ -2,12 +2,16 @@ package com.example.baseballsignaler;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,11 +26,18 @@ import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.felhr.usbserial.UsbSerialDevice;
+import com.felhr.usbserial.UsbSerialInterface;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
@@ -54,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     ListView lvNewDevices;
 
+    public final String ACTION_USB_PERMISSION = "com.example.baseballsignaler.USB_PERMISSION";
+    String lastCode;
+    boolean inCode = false;
 
     // Create a BroadcastReceiver for ACTION_FOUND
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
@@ -236,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.e(TAG, "btnSend: No target device found.");
                 }
             }
+
         });
 
         toConnectWindow.setOnClickListener(new View.OnClickListener() {
@@ -269,9 +284,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 } catch (NullPointerException e) {
                     Log.e(TAG, "btnClear: No target device found.");
                 }
+
             }
         });
 
+        // textView = findViewById(R.id.textView);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            usbManager = (UsbManager) getSystemService(this.USB_SERVICE);
+        }
+        IntentFilter USBfilter = new IntentFilter();
+        USBfilter.addAction(ACTION_USB_PERMISSION);
+        USBfilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+        USBfilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        registerReceiver(broadcastReceiver, USBfilter);
+
+        onClickStart();
     }
 
     //create method for starting connection
@@ -415,5 +443,139 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         unregisterReceiver(mBroadcastReceiver3);
         unregisterReceiver(mBroadcastReceiver4);
         //mBluetoothAdapter.cancelDiscovery();
+    }
+
+    UsbDeviceConnection connection;
+    UsbManager usbManager;
+    UsbDevice device;
+    UsbSerialDevice serialPort;
+    // TextView textView;
+    UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() { //Defining a Callback which triggers whenever data is read.
+        @Override
+        public void onReceivedData(byte[] arg0) {
+            // etAppend(textView, "Received some data");
+            String data = null;
+            etAppend(etSend, ".");
+            try {
+                data = new String(arg0, "UTF-8");
+
+                if (data.contains("$") && !data.contains("x")) {
+                    lastCode = "";
+                    inCode = true;
+                    lastCode = data.substring(data.indexOf("$") + 1);
+                } else if (data.contains("x") && !data.contains("$")) {
+                    lastCode = lastCode + data.substring(0, data.indexOf("x"));
+                    inCode = false;
+                } else if (!data.contains("$") && !data.contains("x")) {
+                    lastCode = lastCode + data;
+                } else if (data.contains("$") && data.contains("x")) {
+                    inCode = true;
+                    lastCode = data.substring(data.indexOf("$") + 1, data.indexOf("x"));
+                    inCode = false;
+                }
+
+                etAppend(etSend, data);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
+                boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+                if (granted) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                        connection = usbManager.openDevice(device);
+                    }
+                    serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
+                    if (serialPort != null) {
+                        if (serialPort.open()) { //Set Serial Connection Parameters.
+                            serialPort.setBaudRate(9600);
+                            serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
+                            serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
+                            serialPort.setParity(UsbSerialInterface.PARITY_NONE);
+                            serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+                            serialPort.read(mCallback);
+                            // etAppend(textView,"Serial Connection Opened!\n");
+
+                        } else {
+                            Log.d("SERIAL", "PORT NOT OPEN");
+                        }
+                    } else {
+                        Log.d("SERIAL", "PORT IS NULL");
+                    }
+                } else {
+                    Log.d("SERIAL", "PERM NOT GRANTED");
+                }
+            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
+                onClickStart();
+            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
+                onClickStop();
+
+            }
+        }
+    };
+
+    public void onClickStart() {
+
+        HashMap<String, UsbDevice> usbDevices = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            usbDevices = usbManager.getDeviceList();
+        }
+        if (!usbDevices.isEmpty()) {
+            boolean keep = true;
+            for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
+                device = entry.getValue();
+                int deviceVID = 0;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                    deviceVID = device.getVendorId();
+                }
+                if (deviceVID == 0x2341)//Arduino Vendor ID
+                {
+                    PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                        usbManager.requestPermission(device, pi);
+                    }
+                    keep = false;
+                } else {
+                    connection = null;
+                    device = null;
+                }
+
+                if (!keep)
+                    break;
+            }
+        }
+
+
+    }
+
+    public void onClickStop() {
+        serialPort.close();
+        // etAppend(textView,"\nSerial Connection Closed! \n");
+
+    }
+
+    private void etAppend(EditText et, CharSequence text) {
+        final EditText fet = et;
+        final CharSequence ftext = text;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fet.append(ftext);
+                if (!inCode) {
+                    if (!lastCode.contains("c")) {
+                        btnSend.callOnClick();
+                        etSend.setText(lastCode);
+                    } else {
+                        btnClear.callOnClick();
+                    }
+                }
+            }
+        });
     }
 }
